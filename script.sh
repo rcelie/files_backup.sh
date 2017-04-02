@@ -69,4 +69,5 @@ cd "$path"
 # Compress backup directory into tarball AND(=&&) removes it if successfull
 tar cf "$date_value.tar.gz" "$date_value" AND rm -Rf "$date_value"
 
+fi
 exit 0;
