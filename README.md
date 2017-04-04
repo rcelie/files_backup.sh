@@ -1,2 +1,2 @@
 # script-tank
-Hold my .sh
+Holds my .sh
