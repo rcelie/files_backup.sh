@@ -31,44 +31,49 @@ current_path=$(pwd)
 #tests for existing backup directory.
 if [ -f "$path/$date_value.tar.gz" ] ; then
 # If backup direcotry exist, do
-	echo "A $date_value.tar;gz directory already exist."
+	echo "A $date_value.tar.gz directory already exist."
+	echo "Do you wish to update existing directory ? (y/n)"
+	
+USER_INPUT=0
 
-askUpdate() {	
-	read -p "Do you wish to update directory ? (Y/N)" -n 1 -r
-}
-	user_answer="$(askUpdate)"
+	read -n 1 -r
 	
-	echo # Moves to new line; for user experience purpose only
-	
-	case $user_answer in
+	case $USER_INPUT in
+
 # Case when user answered "Y" or "y" (Yes), do
-	^[Yy]$ ) tar xf "$path/$date_value.tar.gz" 
+	Y|y) echo "Extracting archive"
 	
-	rsync --update -raz --progress --include="$current_path${files_array[*]}" "$path/$date_value" --exclude="*"
+	tar xf "$path/$date_value.tar.gz" 
+	
+	echo "Updating files"
+	rsync --update -raz --progress \
+	      --include="$current_path${files_array[*]}" "$path/$date_value" \
+	      --exclude="*"
 	
 	exit 0;
 	;;
 	
 # Case when user andwered anything else, do
-	^[*]$ ) echo "Didn't update directory."
-	
+	*) echo "Didn't update directory"
 		exit 1;
 	esac
 	
 # Else if backup directory doesn't exist yet
 else
 # Make a directory using the date
-mkdir "$path/$date_value"
+	mkdir "$path/$date_value"
 
 # Loops over the whole array and copy files/directories recursively to given directory with current rights
-for i in "${files_array[@]}"; do
+	for i in "${files_array[@]}" ; do
 		cp -ar "${i}" /home/robin/backup/by_date/"$date_value"/
-done
+	done
 
 # Goes to backup directory
-cd "$path" || return
+	cd "$path" || return
 
 # Compress backup directory into tarball AND(=&&) removes it if successfull
-tar cfM "$date_value.tar.gz" "$date_value" && rm -Rf "$date_value"
+	echo "Compressing directory to $date_value.tar.gz"
+	echo "Removing $date_value uncompressed directory"
+	tar cfM "$date_value.tar.gz" "$date_value" && rm -Rf "$date_value"
 
 fi
