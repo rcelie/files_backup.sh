@@ -36,7 +36,9 @@ if [ -f "$path/$date_value.tar.gz" ] ; then
 	
 USER_INPUT=0
 
-	read -n 1 -r
+	read -n 1 -r USER_INPUT
+	
+	echo # Carriage return
 	
 	case $USER_INPUT in
 
