@@ -1,7 +1,6 @@
 #!/bin/bash
 # This script aims at maintaining backups for all files/directories listed below
-# Tested for Debian Jessie only
-# Kind of a very very very (very) basic versionning system
+# Tested on Debian Jessie only
 # Use for backup on my test files. Run from /path/to/directory/
 
 # Files/directories being backed are
@@ -28,7 +27,7 @@ path='/home/'$USER'backup'
 # Current working directory
 current_path=$(pwd)
 
-#tests for existing backup directory.
+# Test for existing backup directory
 if [ -f "$path/$date_value.tar.gz" ] ; then
 # If backup direcotry exist, do
 	echo "A $date_value.tar.gz directory already exist."
@@ -42,7 +41,7 @@ USER_INPUT=0
 	
 	case $USER_INPUT in
 
-# Case when user answered "Y" or "y" (Yes), do
+# Case when user answers "Y" or "y" (Yes), do
 	Y|y) echo "Extracting archive"
 	
 	tar xf "$path/$date_value.tar.gz" 
@@ -55,7 +54,7 @@ USER_INPUT=0
 	exit 0;
 	;;
 	
-# Case when user andwered anything else, do
+# Case when user answers anything else, do
 	*) echo "Didn't update directory"
 		exit 1;
 	esac
