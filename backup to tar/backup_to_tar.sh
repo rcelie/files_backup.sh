@@ -22,7 +22,7 @@ files_array=(file.jsp file2.jsp file3.jsp directory)
 date_value=$(date '+%Y-%m-%d')
 
 # Path to backup directory
-path='/home/'$USER'backup'
+path='/home/'$USER'/backup'
 
 # Current working directory
 current_path=$(pwd)
